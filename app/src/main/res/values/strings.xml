@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ProjectAndroid</string>
+    <string name="name_film">Entrez le nom d\'un film</string>
+    <string name="rechercher">Rechercher</string>
 </resources>
