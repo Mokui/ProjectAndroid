@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:gravity="center"
         android:src="@mipmap/ic_launcher"
         android:id="@+id/movie_backdrop"/>
 
@@ -16,7 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:textColor="#000"
         android:text="@string/movietitle"
         android:id="@+id/movie_title"/>
 
@@ -24,8 +27,11 @@
         android:id="@+id/movie_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:textColor="@color/colorPrimary"
         android:layout_weight="1"
+        android:textStyle="bold"
         android:text="@string/grade" />
 
 </LinearLayout>
