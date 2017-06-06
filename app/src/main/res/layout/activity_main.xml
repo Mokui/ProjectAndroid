@@ -10,18 +10,22 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/search_field"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nbRésultats"></Spinner>
+        android:id="@+id/search_spinner"
+        android:textAlignment="center"></Spinner>
 
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rechercher"/>
+        android:text="Rechercher"
+        android:onClick="research"
+        android:id="@+id/search_button"/>
 
 
 </LinearLayout>
