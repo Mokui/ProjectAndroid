@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,12 +17,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private int nbResults = 5;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        editText = (EditText) findViewById(R.id.search_field);
         Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
 
         final List<String> values = new LinkedList<>();
@@ -52,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
     private void research(View view){
         //OnClick du bouton de recherche
 
-        // Vérifier l'intégrité des champs et appeler l'activité ResearchActivity avec les valeurs
+        // Vérifier l'intégrité des champs,
+        // Faire requête pour films,
+        // Appeler l'activité ResearchActivity avec les films
+        if(!editText.getText().toString().isEmpty()){
+            // Ici tembouille avec l'api
+        }
+        else {
+            Toast.makeText(this, "Veuillez saisir une recherche", Toast.LENGTH_LONG);
+        }
     }
 }
