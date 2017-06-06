@@ -2,4 +2,6 @@
     <string name="app_name">ProjectAndroid</string>
     <string name="name_film">Entrez le nom d\'un film</string>
     <string name="rechercher">Rechercher</string>
+    <string name="movietitle">titre du film</string>
+    <string name="grade">5/10</string>
 </resources>
