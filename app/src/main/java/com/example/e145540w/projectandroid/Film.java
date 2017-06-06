@@ -2,15 +2,18 @@ package com.example.e145540w.projectandroid;
 
 import android.net.Uri;
 
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by politchor on 06/06/17.
  */
 
-public class Film {
+public class Film implements Serializable{
 
     private String title; // obj.title
+    private Calendar releaseDate; // obj.release_date
     private String overview; // obj.overview
     private Double note; //obj.vote_average
     private List<String> genres; // obj.genre (itérer dessus)
@@ -59,5 +62,13 @@ public class Film {
 
     public void setImage(Uri image) {
         this.image = image;
+    }
+
+    public Calendar getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Calendar releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }
