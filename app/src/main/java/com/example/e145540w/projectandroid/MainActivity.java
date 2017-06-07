@@ -2,6 +2,7 @@ package com.example.e145540w.projectandroid;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
+import com.example.e145540w.projectandroid.Callbacks.GenreCallback;
 import com.example.e145540w.projectandroid.Data.Film;
 import com.example.e145540w.projectandroid.Singletons.MySingleton;
 
@@ -180,14 +182,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void getAllGenres() {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
 
-            }
-        });
-
-
+        AsyncTask task = new GenreCallback(this).execute(allGenres);
+        try {
+            JsonObjectRequest js = (JsonObjectRequest)task.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
