@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.example.e145540w.projectandroid.Data.Film;
 import com.example.e145540w.projectandroid.Singletons.MySingleton;
@@ -32,12 +33,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private final static String API_KEY = "6109c14cf4a63d6489336b6dc5cdb1b3";
 
+    Map<String, String> allGenres  = new HashMap<>();
     private int nbResults = 25;
     private EditText editText;
 
@@ -45,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getAllGenres();
+        if(allGenres.size() == 0){
+            getAllGenres();
+        }
 
         editText = (EditText) findViewById(R.id.search_field);
         Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
@@ -123,11 +133,10 @@ public class MainActivity extends AppCompatActivity {
                             movie.setImage("https://image.tmdb.org/t/p/w500" + imageAddress);
 
                             JSONArray arrayGenres = obj.getJSONArray(Film.JSON_GENRES);
-                            Log.d("GENRE ARRAY", arrayGenres.toString());
                             List<String> genres = new LinkedList<>();
+
                             for (int j = 0; j < arrayGenres.length(); j++) {
                                 int genreID = (int) arrayGenres.get(j);
-                                Map<String, String> allGenres = getAllGenres();
 
                                 genres.add(allGenres.get(genreID));
 
@@ -169,25 +178,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private Map<String, String> getAllGenres() {
+    private void getAllGenres() {
 
-        final Map<String, String> genres = new HashMap<>();
-
-
-        String url = "https://api.themoviedb.org/3/genre/movie/list?api_key=6109c14cf4a63d6489336b6dc5cdb1b3";
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject genre = response.getJSONObject(i);
-                        genres.put(genre.getString("id"), genre.getString("name"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            public void run() {
+                String url = "https://api.themoviedb.org/3/genre/movie/list?api_key="+API_KEY;
+
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                RequestFuture<JSONObject> future = RequestFuture.newFuture();
+
+                JsonObjectRequest request = new JsonObjectRequest(url, new JSONObject(), future, future);
+
+                queue.add(request);
+
+                try {
+                    JSONObject response = future.get(30, TimeUnit.SECONDS); // this will block
+                    Log.d("JSONOBJECT", response.toString());
+                } catch (InterruptedException e) {
+                    // exception handling
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    // exception handling
+                    e.printStackTrace();
+                } catch (TimeoutException e) {
+                    // exception handling
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray responseArray = response.getJSONArray("genres");
+                    for (int i = 0; i < responseArray.length(); i++) {
+                        JSONObject genre = responseArray.getJSONObject(i);
+                        allGenres.put(genre.getString("id"), genre.getString("name"));
+                        Log.d("GENRES ADD", "Ajouté : " + allGenres.get(genre.getString("id")));
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -195,9 +229,11 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("Error", error.toString());
             }
-        });
 
-        return genres;
+
+        });*/
+
+
     }
 
 }

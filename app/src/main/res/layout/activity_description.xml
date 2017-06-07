@@ -41,7 +41,7 @@
         android:textAlignment="center"
         android:textSize="15sp"
         android:textStyle="italic"
-        android:id="@+id/sortie"
+        android:id="@+id/descRelease"
         android:text="@string/sortie"/>
 
     <TextView

@@ -40,6 +40,20 @@ public class DescriptionActivity extends AppCompatActivity {
         Float rating = Float.valueOf(movie.getNote()) / 2;
         descStars.setRating(rating);
 
+        TextView descRelease = (TextView) findViewById(R.id.descRelease);
+        descRelease.setText(movie.getReleaseDate());
+
+        String genres = "Genres : ";
+
+        for(String str : movie.getGenres()){
+            if(!genres.equals("Genres : ")){
+                genres += ", ";
+            }
+            genres += str;
+        }
+
+        TextView descGenre = (TextView) findViewById(R.id.descGenre);
+        descGenre.setText(genres);
 
     }
 }
