@@ -2,36 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="4"
-    >
+    android:weightSum="4">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:scaleType="fitCenter"
         android:layout_weight="2"
         android:gravity="center"
         android:src="@mipmap/ic_launcher"
         android:id="@+id/movie_backdrop"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textColor="#000"
-        android:text="@string/movietitle"
-        android:id="@+id/movie_title"/>
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:layout_weight="2">
 
-    <TextView
-        android:id="@+id/movie_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textColor="@color/colorPrimary"
-        android:layout_weight="1"
-        android:textStyle="bold"
-        android:text="@string/grade" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/movietitle"
+            android:id="@+id/movie_title"/>
+
+        <TextView
+            android:id="@+id/movie_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text="@string/grade" />
+    </LinearLayout>
+
 
 </LinearLayout>

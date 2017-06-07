@@ -18,6 +18,8 @@
         </activity>
 
         <activity android:name=".ResearchActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name=".DescriptionActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

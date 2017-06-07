@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String API_KEY = "6109c14cf4a63d6489336b6dc5cdb1b3";
 
-    private int nbResults = 5;
+    private int nbResults = 25;
     private EditText editText;
 
     @Override
@@ -51,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         final List<String> values = new LinkedList<>();
         values.add("Nombres de valeurs à afficher");
+        values.add("1");
         values.add("5");
         values.add("10");
-        values.add("15");
+        values.add("25");
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, values);
 
@@ -103,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
                         ArrayList<Film> movieResults = new ArrayList<>();
 
+                        int size = arrayMovies.length() > nbResults ? nbResults : arrayMovies.length();
                         // Pour chaque obj json dans la réponse
-                        for (int i = 0; i < arrayMovies.length(); i++) {
+                        for (int i = 0; i < size; i++) {
                             JSONObject obj = arrayMovies.getJSONObject(i);
                             Log.v("FILM " + i + 1, obj.toString());
 
@@ -112,8 +114,13 @@ public class MainActivity extends AppCompatActivity {
 
                             movie.setNote(obj.getString(Film.JSON_NOTE));
                             movie.setOverview(obj.getString(Film.JSON_OVERVIEW));
-                            movie.setImage("https://image.tmdb.org/t/p/w500" + obj.getString(Film.JSON_IMAGE));
                             movie.setReleaseDate(obj.getString(Film.JSON_RELEASE));
+
+                            String imageAddress = obj.getString(Film.JSON_IMAGE);
+                            if(imageAddress.equals("null")){
+                                imageAddress = obj.getString(Film.JSON_POSTER);
+                            }
+                            movie.setImage("https://image.tmdb.org/t/p/w500" + imageAddress);
 
                             JSONArray arrayGenres = obj.getJSONArray(Film.JSON_GENRES);
                             Log.d("GENRE ARRAY", arrayGenres.toString());
@@ -131,10 +138,16 @@ public class MainActivity extends AppCompatActivity {
                             movieResults.add(movie);
                         }
 
-                        Intent listActivity = new Intent(MainActivity.this, ResearchActivity.class);
-                        listActivity.putExtra("movies", movieResults);
+                        if(movieResults.size() == 0){
+                            Toast.makeText(MainActivity.this, "Aucun résultats pour cette recherche", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Intent listActivity = new Intent(MainActivity.this, ResearchActivity.class);
+                            listActivity.putExtra("movies", movieResults);
 
-                        startActivityForResult(listActivity, 1);
+                            startActivityForResult(listActivity, 1);
+                        }
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();

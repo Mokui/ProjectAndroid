@@ -17,6 +17,7 @@ public class Film implements Serializable {
     public final static String JSON_OVERVIEW = "overview";
     public final static String JSON_GENRES = "genre_ids";
     public final static String JSON_IMAGE = "backdrop_path";
+    public final static String JSON_POSTER = "poster_path";
 
 
 
