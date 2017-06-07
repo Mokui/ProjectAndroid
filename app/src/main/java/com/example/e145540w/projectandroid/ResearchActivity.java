@@ -23,11 +23,13 @@ public class ResearchActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        List<Film> films = (List<Film>) extras.get("films");
+        List<Film> films = (List<Film>) extras.get("movies");
 
         ListView listView = (ListView) findViewById(R.id.movie_list);
 
         ArrayAdapter customAdapter = new MyCustomAdapter(this, films);
+
+        listView.setAdapter(customAdapter);
 
         //Ici récupérer les lignes avec la requête
     }

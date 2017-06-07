@@ -10,14 +10,22 @@ import java.util.List;
  * Created by politchor on 06/06/17.
  */
 
-public class Film implements Serializable{
+public class Film implements Serializable {
+    public final static String JSON_TITLE = "title";
+    public final static String JSON_NOTE = "vote_average";
+    public final static String JSON_RELEASE = "release_date";
+    public final static String JSON_OVERVIEW = "overview";
+    public final static String JSON_GENRES = "genre_ids";
+    public final static String JSON_IMAGE = "backdrop_path";
+
+
 
     private String title; // obj.title
-    private Calendar releaseDate; // obj.release_date
+    private String releaseDate; // obj.release_date
     private String overview; // obj.overview
-    private Double note; //obj.vote_average
+    private String note; //obj.vote_average
     private List<String> genres; // obj.genre (itérer dessus)
-    private Uri image; // obj.backdrop_path
+    private String image; // obj.backdrop_path
 
     public Film(String title) {
         this.title = title;
@@ -40,11 +48,11 @@ public class Film implements Serializable{
         this.overview = overview;
     }
 
-    public Double getNote() {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(Double note) {
+    public void setNote(String note) {
         this.note = note;
     }
 
@@ -56,19 +64,19 @@ public class Film implements Serializable{
         this.genres = genres;
     }
 
-    public Uri getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Uri image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public Calendar getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Calendar releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 }
