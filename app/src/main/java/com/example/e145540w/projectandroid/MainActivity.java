@@ -40,7 +40,7 @@ import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static String API_KEY = "6109c14cf4a63d6489336b6dc5cdb1b3";
+    public final static String API_KEY = "6109c14cf4a63d6489336b6dc5cdb1b3";
 
     Map<String, String> allGenres  = new HashMap<>();
     private int nbResults = 25;
@@ -183,28 +183,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = "https://api.themoviedb.org/3/genre/movie/list?api_key="+API_KEY;
 
-                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                RequestFuture<JSONObject> future = RequestFuture.newFuture();
-
-                JsonObjectRequest request = new JsonObjectRequest(url, new JSONObject(), future, future);
-
-                queue.add(request);
-
-                try {
-                    JSONObject response = future.get(30, TimeUnit.SECONDS); // this will block
-                    Log.d("JSONOBJECT", response.toString());
-                } catch (InterruptedException e) {
-                    // exception handling
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    // exception handling
-                    e.printStackTrace();
-                } catch (TimeoutException e) {
-                    // exception handling
-                    e.printStackTrace();
-                }
             }
         });
 
