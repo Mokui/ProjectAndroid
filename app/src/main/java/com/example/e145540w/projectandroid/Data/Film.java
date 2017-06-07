@@ -1,4 +1,4 @@
-package com.example.e145540w.projectandroid;
+package com.example.e145540w.projectandroid.Data;
 
 import android.net.Uri;
 

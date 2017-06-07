@@ -2,14 +2,12 @@ package com.example.e145540w.projectandroid;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.example.e145540w.projectandroid.Adapters.MyCustomAdapter;
+import com.example.e145540w.projectandroid.Data.Film;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
