@@ -3,6 +3,7 @@ package com.example.e145540w.projectandroid;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,8 +23,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
-import com.example.e145540w.projectandroid.Callbacks.GenreCallback;
+import com.example.e145540w.projectandroid.Data.Divertissement;
 import com.example.e145540w.projectandroid.Data.Film;
+import com.example.e145540w.projectandroid.Data.Serie;
 import com.example.e145540w.projectandroid.Singletons.MySingleton;
 
 import org.json.JSONArray;
@@ -53,10 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getAllGenres();
-        if(allGenres.size() == 0){
-            getAllGenres();
-        }
+        Toast.makeText(MainActivity.this, "Bonjour", Toast.LENGTH_LONG).show();
 
         editText = (EditText) findViewById(R.id.search_field);
         Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
@@ -96,7 +96,18 @@ public class MainActivity extends AppCompatActivity {
         // Appeler l'activité ResearchActivity avec les films
         if (!research.isEmpty()) {
             // Ici tembouille avec l'api
-            String url = "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=";
+            RadioButton button = (RadioButton) findViewById(R.id.radioMovie);
+            final String divSearch;
+            if(button.isChecked()){
+                divSearch = "movie";
+            }
+            else {
+                divSearch = "tv";
+            }
+
+            Log.d("DivSearch : " , divSearch);
+
+            String url = "https://api.themoviedb.org/3/search/"+divSearch+"?api_key=" + API_KEY + "&query=";
             String query = "";
             for (String str : research.split("\\s")) {
                 if (query != "") {
@@ -105,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 query += str;
             }
 
-            RequestQueue queue = Volley.newRequestQueue(this);
-
+            Log.d("URL REQUEST", url + query);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url + query, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -114,47 +124,43 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("Réussite", "**** Film : " + response.toString());
                         JSONArray arrayMovies = (JSONArray) response.get("results");
 
-                        ArrayList<Film> movieResults = new ArrayList<>();
+                        ArrayList<Divertissement> results = new ArrayList<>();
 
                         int size = arrayMovies.length() > nbResults ? nbResults : arrayMovies.length();
                         // Pour chaque obj json dans la réponse
                         for (int i = 0; i < size; i++) {
                             JSONObject obj = arrayMovies.getJSONObject(i);
-                            Log.v("FILM " + i + 1, obj.toString());
+                            Log.v("DIVERTISSEMENT " + i + 1, obj.toString());
 
-                            Film movie = new Film(obj.getString(Film.JSON_TITLE));
+                            Divertissement divertissement = null;
+                            if(divSearch.equals("movie")){
+                                divertissement = new Film(obj.getString(Divertissement.JSON_TITLE));
+                                divertissement.setReleaseDate(obj.getString(Divertissement.JSON_RELEASE));
+                            }
+                            else  {
+                                divertissement = new Serie(obj.getString(Divertissement.JSON_NAME));
+                                divertissement.setReleaseDate(obj.getString(Divertissement.JSON_FIRST_AIR_DATE));
+                            }
 
-                            movie.setNote(obj.getString(Film.JSON_NOTE));
-                            movie.setOverview(obj.getString(Film.JSON_OVERVIEW));
-                            movie.setReleaseDate(obj.getString(Film.JSON_RELEASE));
 
-                            String imageAddress = obj.getString(Film.JSON_IMAGE);
+                            divertissement.setNote(obj.getString(Divertissement.JSON_NOTE));
+                            divertissement.setOverview(obj.getString(Divertissement.JSON_OVERVIEW));
+
+                            String imageAddress = obj.getString(Divertissement.JSON_IMAGE);
                             if(imageAddress.equals("null")){
-                                imageAddress = obj.getString(Film.JSON_POSTER);
+                                imageAddress = obj.getString(Divertissement.JSON_POSTER);
                             }
-                            movie.setImage("https://image.tmdb.org/t/p/w500" + imageAddress);
+                            divertissement.setImage("https://image.tmdb.org/t/p/w500" + imageAddress);
 
-                            JSONArray arrayGenres = obj.getJSONArray(Film.JSON_GENRES);
-                            List<String> genres = new LinkedList<>();
-
-                            for (int j = 0; j < arrayGenres.length(); j++) {
-                                int genreID = (int) arrayGenres.get(j);
-
-                                genres.add(allGenres.get(genreID));
-
-                            }
-
-                            movie.setGenres(genres);
-
-                            movieResults.add(movie);
+                            results.add(divertissement);
                         }
 
-                        if(movieResults.size() == 0){
-                            Toast.makeText(MainActivity.this, "Aucun résultats pour cette recherche", Toast.LENGTH_LONG).show();
+                        if(results.size() == 0){
+                            Toast.makeText(MainActivity.this, "Aucun résultat pour cette recherche", Toast.LENGTH_LONG).show();
                         }
                         else {
                             Intent listActivity = new Intent(MainActivity.this, ResearchActivity.class);
-                            listActivity.putExtra("movies", movieResults);
+                            listActivity.putExtra("results", results);
 
                             startActivityForResult(listActivity, 1);
                         }
@@ -177,51 +183,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Veuillez saisir une recherche", Toast.LENGTH_LONG).show();
         }
-    }
-
-
-    private void getAllGenres() {
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
-
-        AsyncTask task = new GenreCallback(this).execute(allGenres);
-        try {
-            JsonObjectRequest js = (JsonObjectRequest)task.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray responseArray = response.getJSONArray("genres");
-                    for (int i = 0; i < responseArray.length(); i++) {
-                        JSONObject genre = responseArray.getJSONObject(i);
-                        allGenres.put(genre.getString("id"), genre.getString("name"));
-                        Log.d("GENRES ADD", "Ajouté : " + allGenres.get(genre.getString("id")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Error", error.toString());
-            }
-
-
-        });*/
-
-
     }
 
 }

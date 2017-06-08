@@ -1,34 +1,38 @@
 package com.example.e145540w.projectandroid.Data;
 
-import android.net.Uri;
-
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by politchor on 06/06/17.
+ * Created by politchor on 08/06/17.
  */
 
-public class Film implements Divertissement {
+public class Serie implements Divertissement {
 
-    private String title; // obj.title
+    private String name; // obj.name
     private String releaseDate; // obj.release_date
     private String overview; // obj.overview
     private String note; //obj.vote_average
     private String image; // obj.backdrop_path
 
-    public Film(String title) {
-        this.title = title;
+    public Serie(String name) {
+        this.name = name;
     }
-
 
     public String getTitle() {
-        return title;
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String name) {
+        this.name = name;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getOverview() {
@@ -53,13 +57,5 @@ public class Film implements Divertissement {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
     }
 }

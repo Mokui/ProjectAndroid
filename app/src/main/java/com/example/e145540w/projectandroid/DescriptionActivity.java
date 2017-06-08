@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.e145540w.projectandroid.Data.Divertissement;
 import com.example.e145540w.projectandroid.Data.Film;
 import com.squareup.picasso.Picasso;
 
@@ -25,25 +26,25 @@ public class DescriptionActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        Film movie = (Film) extras.get("movie");
+        Divertissement divertissement = (Divertissement) extras.get("divertissement");
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        Picasso.with(this).load(movie.getImage()).into(imageView);
+        Picasso.with(this).load(divertissement.getImage()).into(imageView);
 
         TextView descTitle = (TextView) findViewById(R.id.descTitle);
-        descTitle.setText(movie.getTitle());
+        descTitle.setText(divertissement.getTitle());
 
         TextView descOverview = (TextView) findViewById(R.id.descOverview);
-        descOverview.setText(movie.getOverview());
+        descOverview.setText(divertissement.getOverview());
 
         RatingBar descStars = (RatingBar) findViewById(R.id.descStars);
-        Float rating = Float.valueOf(movie.getNote()) / 2;
+        Float rating = Float.valueOf(divertissement.getNote()) / 2;
         descStars.setRating(rating);
 
         TextView descRelease = (TextView) findViewById(R.id.descRelease);
-        descRelease.setText(movie.getReleaseDate());
+        descRelease.setText(divertissement.getReleaseDate());
 
-        String genres = "Genres : ";
+        /*String genres = "Genres : ";
 
         for(String str : movie.getGenres()){
             if(!genres.equals("Genres : ")){
@@ -53,7 +54,7 @@ public class DescriptionActivity extends AppCompatActivity {
         }
 
         TextView descGenre = (TextView) findViewById(R.id.descGenre);
-        descGenre.setText(genres);
+        descGenre.setText(genres);*/
 
     }
 }

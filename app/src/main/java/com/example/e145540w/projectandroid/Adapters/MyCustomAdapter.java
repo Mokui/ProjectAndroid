@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import com.example.e145540w.projectandroid.Data.Divertissement;
 import com.example.e145540w.projectandroid.Data.Film;
 import com.example.e145540w.projectandroid.R;
 import com.squareup.picasso.Picasso;
@@ -22,8 +23,8 @@ import com.squareup.picasso.Picasso;
 
 public class MyCustomAdapter extends ArrayAdapter {
 
-    public MyCustomAdapter(@NonNull Context context, List<Film> filmsList) {
-        super(context,R.layout.row_search_list, filmsList);
+    public MyCustomAdapter(@NonNull Context context, List<Divertissement> list) {
+        super(context,R.layout.row_search_list, list);
     }
 
     @NonNull
@@ -34,16 +35,16 @@ public class MyCustomAdapter extends ArrayAdapter {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         row = inflater.inflate(R.layout.row_search_list, null);
 
-        Film movie = (Film) getItem(position);
+        Divertissement divertissement = (Divertissement) getItem(position);
 
         TextView movieTitle = (TextView) row.findViewById(R.id.movie_title);
-        movieTitle.setText(movie.getTitle());
+        movieTitle.setText(divertissement.getTitle());
 
         TextView movieNote = (TextView) row.findViewById(R.id.movie_note);
-        movieNote.setText(movie.getNote().toString() + "/10");
+        movieNote.setText(divertissement.getNote().toString() + "/10");
 
         ImageView movieBackdrop = (ImageView) row.findViewById(R.id.movie_backdrop);
-        Picasso.with(getContext()).load(movie.getImage()).into(movieBackdrop);
+        Picasso.with(getContext()).load(divertissement.getImage()).into(movieBackdrop);
         return row;
     }
 }

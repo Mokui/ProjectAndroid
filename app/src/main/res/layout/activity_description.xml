@@ -33,8 +33,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:id="@+id/descGenre"
-        android:text="@string/genre"/>
+        android:id="@+id/descGenre" />
 
     <TextView
         android:layout_width="match_parent"
