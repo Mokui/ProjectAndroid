@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(MainActivity.this, "Bonjour", Toast.LENGTH_LONG).show();
-
         editText = (EditText) findViewById(R.id.search_field);
         Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
 
