@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String API_KEY = "6109c14cf4a63d6489336b6dc5cdb1b3";
 
-    Map<String, String> allGenres  = new HashMap<>();
     private int nbResults = 25;
     private EditText editText;
 
@@ -103,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
                 divSearch = "tv";
             }
 
-            Log.d("DivSearch : " , divSearch);
-
             String url = "https://api.themoviedb.org/3/search/"+divSearch+"?api_key=" + API_KEY + "&query=";
             String query = "";
             for (String str : research.split("\\s")) {
@@ -113,13 +110,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 query += str;
             }
-
-            Log.d("URL REQUEST", url + query);
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url + query, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        Log.v("Réussite", "**** Film : " + response.toString());
                         JSONArray arrayMovies = (JSONArray) response.get("results");
 
                         ArrayList<Divertissement> results = new ArrayList<>();
@@ -128,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                         // Pour chaque obj json dans la réponse
                         for (int i = 0; i < size; i++) {
                             JSONObject obj = arrayMovies.getJSONObject(i);
-                            Log.v("DIVERTISSEMENT " + i + 1, obj.toString());
 
                             Divertissement divertissement = null;
                             if(divSearch.equals("movie")){
@@ -154,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if(results.size() == 0){
-                            Toast.makeText(MainActivity.this, "Aucun résultat pour cette recherche", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Aucun résultat pour cette recherche", Toast.LENGTH_SHORT).show();
                         }
                         else {
                             Intent listActivity = new Intent(MainActivity.this, ResearchActivity.class);
